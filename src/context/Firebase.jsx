@@ -7,12 +7,12 @@ import { getFirestore, collection, addDoc, getDoc, getDocs, doc, query, where } 
 const FirebaseContext = createContext(null);
 
 const firebaseConfig = {
-    apiKey: "AIzaSyDEIat36jdwYvfCk24LE_I5HmXXbWzB-Ic",
-    authDomain: "bookify-b90a9.firebaseapp.com",
-    projectId: "bookify-b90a9",
-    storageBucket: "bookify-b90a9.firebasestorage.app",
-    messagingSenderId: "474573450103",
-    appId: "1:474573450103:web:f5095fa91c4627ef5e8f72"
+    apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+    authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+    projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+    storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+    appId: import.meta.env.VITE_FIREBASE_APP_ID,
 };
 
 export const useFirebase = () => useContext(FirebaseContext);
