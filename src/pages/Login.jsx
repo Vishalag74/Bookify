@@ -14,7 +14,7 @@ const LoginPage = () => {
 
     useEffect(() => {
         if (firebase.isLoggedIn) {
-            navigate("/");
+            navigate("/dashboard");
         }
     },[firebase,navigate])
 

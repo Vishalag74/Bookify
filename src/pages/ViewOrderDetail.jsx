@@ -14,12 +14,12 @@ const ViewOrderDetail = () => {
 
     return (
         <div className='container mt-5'>
-            <h1>Orders</h1>
+            <h1>Orders Details:</h1>
             {orders.map((order) => {
                 const data = order.data();
                 return (
                     <div key={order.id} className='mt-5' style={{border:'1px solid black', padding:'10px', borderRadius:'10px'}}>
-                        <h5>Order By: {data.displayName}</h5>
+                        <h5>Order By: {data.displayName || data.userEmail}</h5>
                         <h6>Qty: {data.qty}</h6>
                         <p>Email: {data.userEmail}</p>
                     </div>

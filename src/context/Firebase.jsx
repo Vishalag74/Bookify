@@ -1,7 +1,7 @@
 import { use, useContext, useState, useEffect } from "react";
 import { createContext } from "react";
 import { initializeApp } from "firebase/app";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from 'firebase/auth';
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from 'firebase/auth';
 import { getFirestore, collection, addDoc, getDoc, getDocs, doc, query, where } from "firebase/firestore";
 
 const FirebaseContext = createContext(null);
@@ -34,8 +34,6 @@ export const FirebaseProvider = (props) => {
                 setUser(null);
             }
         });
-
-        // cleanup subscription on unmount
         return () => unsubscribe();
     }, []);
 
@@ -51,13 +49,21 @@ export const FirebaseProvider = (props) => {
         return signInWithPopup(firebaseAuth, googleProvider);
     }
 
+    const signOutUser = async () => {
+        await signOut(firebaseAuth);
+        return true;
+    }
+
     const handleCreateNewListing = async (name, isbnNumber, price, coverPic) => {
+        const uploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
+        const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
+
         const formData = new FormData();
         formData.append('file', coverPic);
-        formData.append('upload_preset', 'bookify');
-        formData.append('cloud_name', 'dwk39rvko');
+        formData.append('upload_preset', uploadPreset);
+        formData.append('cloud_name', cloudName);
 
-        const response = await fetch(`https://api.cloudinary.com/v1_1/dwk39rvko/auto/upload`, {
+        const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/auto/upload`, {
             method: 'POST',
             body: formData
         });
@@ -115,7 +121,7 @@ export const FirebaseProvider = (props) => {
         return result;
     }
 
-    const getOrders=async(bookId)=>{
+    const getOrders = async (bookId) => {
         const collectionRef = collection(firestore, "books", bookId, "orders")
         const result = await getDocs(collectionRef);
         return result;
@@ -128,6 +134,7 @@ export const FirebaseProvider = (props) => {
             signupUserWithEmailAndPassword,
             signinUserWithEmailAndPassword,
             signInWithGoogle,
+            signOutUser,
             handleCreateNewListing,
             listAllBooks,
             getImageURL,
