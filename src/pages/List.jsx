@@ -34,7 +34,7 @@ const List = () => {
     }
 
     return (
-        <div className=" flex items-start justify-center pt-24 pb-12 bg-gray-50">
+        <div className=" flex items-start justify-center pt-24 pb-12">
             <div className='w-full flex items-center justify-center'>
                 <div className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-2xl">
                     <form onSubmit={handleSubmit} className='space-y-4'>
