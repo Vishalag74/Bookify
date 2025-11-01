@@ -1,8 +1,5 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
 import { useFirebase } from '../context/Firebase';
 
 const MyNavbar = () => {
@@ -15,16 +12,18 @@ const MyNavbar = () => {
     }
 
     return (
-        <Navbar bg="dark" data-bs-theme="dark">
-            <Container>
-                <Nav className="me-auto">
-                    <Nav.Link href="/dashboard">Home</Nav.Link>
-                    <Nav.Link href="/book/list">Add Listing</Nav.Link>
-                    <Nav.Link href="/book/orders">Orders</Nav.Link>
-                    <Nav.Link onClick={handleLogout}>Logout</Nav.Link>
-                </Nav>
-            </Container>
-        </Navbar>
+        <nav className="bg-gray-800 p-4">
+            <div className="container mx-auto flex justify-around items-center">
+                <img src="/logo.svg" alt="Bookify Logo" className="h-12 cursor-pointer" />
+                <div className="flex justify-around min-w-auto gap-6">
+                    <button onClick={() => navigate('/dashboard')} className="font-bold cursor-pointer text-white hover:text-blue-700">Home</button>
+                    <button onClick={() => navigate('/book/list')} className="font-bold cursor-pointer text-white hover:text-blue-700">Add Listing</button>
+                    <button onClick={() => navigate('/book/orders')} className="font-bold cursor-pointer text-white hover:text-blue-700">My Products</button>
+                    <button onClick={() => navigate('/book/myorders')} className="font-bold cursor-pointer text-white hover:text-blue-700">Orders</button>
+                </div>
+                <button onClick={handleLogout} className="font-bold text-white cursor-pointer bg-red-600 py-2 px-4 rounded-full hover:bg-red-700">Log Out</button>
+            </div>
+        </nav>
     )
 }
 

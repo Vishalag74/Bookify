@@ -127,6 +127,23 @@ export const FirebaseProvider = (props) => {
         return result;
     }
 
+    const getUserOrders = async (userId) => {
+        const booksRef = collection(firestore, "books");
+        const booksSnapshot = await getDocs(booksRef);
+        const userOrders = [];
+
+        for (const bookDoc of booksSnapshot.docs) {
+            const ordersRef = collection(firestore, "books", bookDoc.id, "orders");
+            const q = query(ordersRef, where("userId", "==", userId));
+            const ordersSnapshot = await getDocs(q);
+            ordersSnapshot.forEach(orderDoc => {
+                userOrders.push({ bookId: bookDoc.id, ...orderDoc.data() });
+            });
+        }
+
+        return { docs: userOrders };
+    }
+
     const isLoggedIn = user ? true : false;
 
     return (
@@ -142,6 +159,7 @@ export const FirebaseProvider = (props) => {
             placeOrder,
             fetchMyBooks,
             getOrders,
+            getUserOrders,
             isLoggedIn,
             user,
         }

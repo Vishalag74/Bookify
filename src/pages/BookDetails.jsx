@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
 import { useParams } from "react-router-dom";
 import { useFirebase } from "../context/Firebase";
 
@@ -28,27 +26,42 @@ const BookDetailPage = () => {
         console.log("Order Placed", result);
     };
 
-    if (data == null) return <h1>Loading...</h1>;
+    if (data == null) return <h1 className='text-center mt-5'>Loading...</h1>;
 
     return (
-        <div className="container mt-5">
-            <h1>{data.name}</h1>
-            <img src={url} width="50%" style={{ borderRadius: "10px" }} />
-            <h1>Details</h1>
-            <p><b>Price:</b> Rs.{data.price}</p>
-            <p><b>ISBN Number:</b> {data.isbnNumber}</p>
-            <h1>Owner Details</h1>
-            <p><b>Name:</b> {data.displayName}</p>
-            <p><b>Email:</b> {data.userEmail}</p>
-            <Form.Group className="mb-3" controlId="formBasicPassword">
-                <Form.Label>Qty</Form.Label>
-                <Form.Control
-                    onChange={(e) => setQty(e.target.value)}
-                    value={qty}
-                    type="Number"
-                />
-            </Form.Group>
-            <Button onClick={placeOrder} variant="success">Buy Now</Button>
+        <div className=" py-8 overflow-x-hidden">
+            <div className="container mx-auto px-4">
+                <div className="max-w-4xl mx-auto rounded-lg shadow-lg overflow-hidden mt-20">
+                    <div className="md:flex bg-white shadow-xl/20 ">
+                        <div className="md:w-full p-5">
+                            <img src={url} className='w-full h-96 object-contain' />
+                        </div>
+                        <div className="md:w-1/2 p-5">
+                            <h1 className='text-3xl font-bold mb-4'>{data.name}</h1>
+                            <div className="mb-4">
+                                <h2 className='text-xl font-semibold mb-2 text-gray-900'>Details</h2>
+                                <p className='mb-2 text-gray-900'><b>Price:</b> Rs.{data.price}</p>
+                                <p className='mb-4 text-gray-900'><b>ISBN Number:</b> {data.isbnNumber}</p>
+                            </div>
+                            <div className="mb-4">
+                                <h2 className='text-xl font-semibold mb-2 text-gray-900'>Owner Details</h2>
+                                <p className='mb-2 text-gray-900'><b>Name:</b> {data.displayName}</p>
+                                <p className='mb-4 text-gray-900'><b>Email:</b> {data.userEmail}</p>
+                            </div>
+                            <div className="mb-4">
+                                <label className="block text-sm font-medium text-gray-900 mb-1">Qty</label>
+                                <input
+                                    onChange={(e) => setQty(e.target.value)}
+                                    value={qty}
+                                    type="number"
+                                    className="border border-gray-600 rounded px-3 py-2 w-full bg-gray-100"
+                                />
+                            </div>
+                            <button onClick={placeOrder} className="bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600 w-full">Buy Now</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 };

@@ -1,17 +1,17 @@
 import React, { useState, useRef } from 'react'
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
 import { useFirebase } from '../context/Firebase';
-import { Alert } from 'react-bootstrap';
+import { useNavigate } from "react-router-dom";
 
 const List = () => {
     const firebase = useFirebase();
+    const navigate = useNavigate();
 
     const [name, setName] = useState('');
     const [isbnNumber, setIsbnNumber] = useState('');
     const [price, setPrice] = useState('');
     const [coverPic, setCoverPic] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [alertMessage, setAlertMessage] = useState('');
     const fileInputRef = useRef(null);
 
     const handleSubmit = async (e) => {
@@ -25,36 +25,78 @@ const List = () => {
             setPrice('');
             setCoverPic('');
             if (fileInputRef.current) fileInputRef.current.value = '';
+            setAlertMessage('Listing created successfully!');
         } catch (err) {
-            Alert('Failed to create listing');
+            setAlertMessage('Failed to create listing');
         } finally {
             setIsSubmitting(false);
         }
     }
 
     return (
-        <div className='container mt-5'>
-            <Form onSubmit={handleSubmit}>
-                <Form.Group className="mb-3" controlId="formBasicEmail">
-                    <Form.Label>Book Name</Form.Label>
-                    <Form.Control onChange={(e) => setName(e.target.value)} value={name} type="text" placeholder="Enter Book Name" />
-                </Form.Group>
-                <Form.Group className="mb-3" controlId="formBasicPassword">
-                    <Form.Label>ISBN</Form.Label>
-                    <Form.Control onChange={(e) => setIsbnNumber(e.target.value)} value={isbnNumber} type="text" placeholder="Enter ISBN Number" />
-                </Form.Group>
-                <Form.Group className="mb-3" controlId="formBasicPassword2">
-                    <Form.Label>Price</Form.Label>
-                    <Form.Control onChange={(e) => setPrice(e.target.value)} value={price} type="text" placeholder="Enter Price" />
-                </Form.Group>
-                <Form.Group className="mb-3" controlId="formBasicPassword3">
-                    <Form.Label>Upload Cover Image</Form.Label>
-                    <Form.Control ref={fileInputRef} onChange={(e) => setCoverPic(e.target.files[0])} type="file" />
-                </Form.Group>
-                <Button variant="primary" type="submit" disabled={isSubmitting}>
-                    {isSubmitting ? 'Creating...' : 'Create'}
-                </Button>
-            </Form>
+        <div className=" flex items-start justify-center pt-24 pb-12 bg-gray-50">
+            <div className='w-full flex items-center justify-center'>
+                <div className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-2xl">
+                    <form onSubmit={handleSubmit} className='space-y-4'>
+                        <div className='flex justify-center text-2xl font-serif font-bold my-6'>List a Book</div>
+                        {alertMessage && (
+                            <div className={`p-4 rounded-md ${alertMessage.includes('successfully') ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+                                {alertMessage}
+                            </div>
+                        )}
+                        <div>
+                            <label htmlFor="name" className='block text-sm font-medium text-gray-700'>Book Name</label>
+                            <input
+                                id="name"
+                                onChange={(e) => setName(e.target.value)}
+                                value={name}
+                                type="text"
+                                placeholder="Enter Book Name"
+                                className='mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500'
+                            />
+                        </div>
+                        <div>
+                            <label htmlFor="isbn" className='block text-sm font-medium text-gray-700'>ISBN</label>
+                            <input
+                                id="isbn"
+                                onChange={(e) => setIsbnNumber(e.target.value)}
+                                value={isbnNumber}
+                                type="text"
+                                placeholder="Enter ISBN Number"
+                                className='mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500'
+                            />
+                        </div>
+                        <div>
+                            <label htmlFor="price" className='block text-sm font-medium text-gray-700'>Price</label>
+                            <input
+                                id="price"
+                                onChange={(e) => setPrice(e.target.value)}
+                                value={price}
+                                type="text"
+                                placeholder="Enter Price"
+                                className='mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500'
+                            />
+                        </div>
+                        <div>
+                            <label htmlFor="coverPic" className='block text-sm font-medium text-gray-700'>Upload Cover Image</label>
+                            <input
+                                id="coverPic"
+                                ref={fileInputRef}
+                                onChange={(e) => setCoverPic(e.target.files[0])}
+                                type="file"
+                                className='mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500'
+                            />
+                        </div>
+                        <button
+                            type="submit"
+                            disabled={isSubmitting}
+                            className='w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 disabled:opacity-50'
+                        >
+                            {isSubmitting ? 'Creating...' : 'Create'}
+                        </button>
+                    </form>
+                </div>
+            </div>
         </div>
     )
 }

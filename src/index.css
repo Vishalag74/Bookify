@@ -1,1 +1,10 @@
+/* small reset to remove default body margins and avoid unexpected scrollbars */
+html, body, #root {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+    background-color: #f1f2f5
+}
+
+/* Tailwind base import (kept minimal to match project setup) */
 @import "tailwindcss";

@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { useFirebase } from '../context/Firebase';
 import { useNavigate } from "react-router-dom";
 import BookCard from '../components/Card';
-import CardGroup from 'react-bootstrap/CardGroup';
+import Footer from '../components/Footer';
 
 const Dashboard = () => {
     const firebase = useFirebase();
@@ -23,12 +23,13 @@ const Dashboard = () => {
     }, [firebase, navigate])
     
     return (
-        <div className='container mt-5'>
-            <CardGroup>
+        <div className=''>
+            <div className='flex flex-wrap justify-between gap-6 m-5'>
                 {books.map((book) => (
                     <BookCard link={`/book/view/${book.id}`} key={book.id} id={book.id} {...book.data()} value="buy" />
                 ))}
-            </CardGroup>
+            </div>
+            <Footer/>
         </div>
     )
 }

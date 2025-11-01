@@ -14,7 +14,7 @@ const ViewOrder = () => {
     if (!firebase.isLoggedIn) return <h1>Please login to view your orders.</h1>
 
     return (
-        <div>
+        <div className='flex flex-wrap gap-6 m-5'>
             {books.map((book) =>
                 (<BookCard link={`/books/orders/${book.id}`} key={book.id} id={book.id} {...book.data()} />))
             }

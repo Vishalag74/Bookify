@@ -13,16 +13,16 @@ const ViewOrderDetail = () => {
     }, [params.bookId, firebase]);
 
     return (
-        <div className='container mt-5'>
-            <h1>Orders Details:</h1>
+        <div className='container mx-auto mt-10 px-10'>
+            <h1 className='text-4xl font-bold mb-10 flex justify-center'>Orders Details:</h1>
             {orders.map((order) => {
                 const data = order.data();
                 return (
-                    <div key={order.id} className='mt-5' style={{border:'1px solid black', padding:'10px', borderRadius:'10px'}}>
-                        <h5>Order By: {data.displayName || data.userEmail}</h5>
-                        <h6>Qty: {data.qty}</h6>
-                        <p>Email: {data.userEmail}</p>
-                    </div>
+                    <li key={order.id} className='w-md list-decimal ml-20 text-2xl font-bold mt-5 border border-black p-4 rounded-lg'>
+                        <h5 className='text-2xl font-semibold'>Order By: {data.displayName || data.userEmail}</h5>
+                        <h6 className='text-xl'>Qty: {data.qty}</h6>
+                        <p className='text-gray-700 text-lg'>Email: {data.userEmail}</p>
+                    </li>
                 );
             })}
         </div>
