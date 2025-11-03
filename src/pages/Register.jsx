@@ -26,11 +26,11 @@ const Register = () => {
 
     return (
         <div className="h-screen overflow-y-hidden flex flex-col">
-            <Header/>
-            <div className='flex items-center justify-center flex-1'>
-                <div className='w-xs p-6 bg-white rounded-lg shadow-blue-200 shadow-2xl'>
+            <Header />
+            <div className='flex items-center justify-center flex-1 px-4 sm:px-0'>
+                <div className='w-full max-w-xs sm:max-w-sm md:max-w-md p-4 sm:p-6 bg-white rounded-lg shadow-blue-200 shadow-2xl'>
                     <form onSubmit={handleSubmit} className='space-y-4'>
-                        <div className='flex justify-center text-2xl font-serif font-bold my-6'>Signup</div>
+                        <div className='flex justify-center text-xl sm:text-2xl font-serif font-bold my-6'>Signup</div>
                         <div>
                             <label htmlFor="fullName" className='block text-sm font-medium text-gray-700'>Full Name</label>
                             <input
@@ -78,11 +78,20 @@ const Register = () => {
                         </div>
                         <button
                             type="submit"
-                            className='w-full bg-blue-600 cursor-pointer text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2'
+                            className='w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer'
                         >
                             Create Account
                         </button>
                     </form>
+                    <div className='flex justify-center'>-- or --</div>
+                    <div className='mt-1 text-center'>
+                        <button
+                            onClick={firebase.signInWithGoogle}
+                            className='w-full mt-2 bg-red-600 cursor-pointer text-white py-2 px-4 rounded-md hover:bg-red-700'
+                        >
+                            Sign in with Google
+                        </button>
+                    </div>
                     <div className='mt-4 text-center'>
                         Already have an account?👉  <span className='text-blue-600 cursor-pointer' onClick={(e) => navigate("/login")}>Login</span>
                     </div>

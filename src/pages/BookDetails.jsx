@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useFirebase } from "../context/Firebase";
 
 const BookDetailPage = () => {
     const params = useParams();
+    const navigate = useNavigate();
     const firebase = useFirebase();
 
     const [qty, setQty] = useState(1);
@@ -21,12 +22,39 @@ const BookDetailPage = () => {
         }
     }, [data]);
 
-    const placeOrder = async () => {
-        const result = await firebase.placeOrder(params.bookId, qty);
-        console.log("Order Placed", result);
+    const handlePayment = async () => {
+        const options = {
+            key: import.meta.env.VITE_RAZORPAY_KEY_ID,
+            amount: data.price * qty * 100, // Amount in paisa (multiply by 100)
+            currency: "INR",
+            name: "Bookify",
+            description: `Purchase of ${data.name}`,
+            image: url,
+            handler: async (response) => {
+                try {
+                    // Payment successful, place the order
+                    const result = await firebase.placeOrder(params.bookId, qty);
+                    console.log("Order Placed", result);
+                    navigate("/book/myorders"); // Redirect to My Orders page
+                } catch (error) {
+                    console.error("Error placing order:", error);
+                    alert("Payment successful, but order placement failed. Please contact support.");
+                }
+            },
+            prefill: {
+                name: firebase.user.displayName,
+                email: firebase.user.email,
+            },
+            theme: {
+                color: "#3399cc",
+            },
+        };
+
+        const rzp = new Razorpay(options);
+        rzp.open();
     };
 
-    if (data == null) return <h1 className='text-center mt-5'>Loading...</h1>;
+    if (data == null) return <h1 className='text-center mt-5 text-2xl'>Loading...</h1>;
 
     return (
         <div className=" py-8 overflow-x-hidden">
@@ -57,7 +85,7 @@ const BookDetailPage = () => {
                                     className="border border-gray-600 rounded px-3 py-2 w-full bg-gray-100"
                                 />
                             </div>
-                            <button onClick={placeOrder} className="bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600 w-full">Buy Now</button>
+                            <button onClick={handlePayment} className="bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600 w-full cursor-pointer">Buy Now</button>
                         </div>
                     </div>
                 </div>

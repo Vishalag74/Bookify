@@ -28,11 +28,11 @@ const LoginPage = () => {
     return (
         <div className="h-screen overflow-y-hidden flex flex-col">
             <Header/>
-            <div className='flex items-center justify-center flex-1'>
-                <div className='w-xs p-6 bg-white rounded-lg shadow-blue-200 shadow-2xl'>
+            <div className='flex items-center justify-center flex-1 px-4 sm:px-0'>
+                <div className='w-full max-w-xs sm:max-w-sm md:max-w-md p-4 sm:p-6 bg-white rounded-lg shadow-blue-200 shadow-2xl'>
                     <form onSubmit={handleSubmit} className='space-y-4'>
                         <div>
-                            <div className='flex justify-center text-2xl font-serif font-bold my-6'>Login</div>
+                            <div className='flex justify-center text-xl sm:text-2xl font-serif font-bold my-6'>Login</div>
                             <label htmlFor="email" className='block text-sm font-medium text-gray-700'>Email address</label>
                             <input
                                 id="email"
@@ -68,11 +68,12 @@ const LoginPage = () => {
                         </p>
                         <button
                             type="submit"
-                            className='w-full bg-blue-600 cursor-pointer text-white py-2 px-4 rounded-md hover:bg-blue-700'
+                            className='w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 cursor-pointer'
                         >
                             Login
                         </button>
                     </form>
+                    <div className='flex justify-center'>-- or --</div>
                     <div className='mt-1 text-center'>
                         <button
                             onClick={firebase.signInWithGoogle}

@@ -3,13 +3,13 @@ import React from 'react'
 const Footer = () => {
     return (
         <footer className="bg-gray-800 text-white">
-            <div className="container mx-auto px-6 py-12">
-                <div className="md:flex md:justify-evenly">
-                    <div className="md:w-1/3 mb-8 md:mb-0">
+            <div className="container mx-auto px-4 sm:px-6 py-8 sm:py-12">
+                <div className="flex flex-col md:flex-row md:justify-evenly">
+                    <div className="mb-8 md:mb-0 md:w-1/3">
                         <div className="flex items-center gap-3 mb-4">
-                            <img src="/logo.svg" alt="Bookify logo" className="h-10" />
+                            <img src="/logo.svg" alt="Bookify logo" className="h-8 sm:h-10" />
                         </div>
-                        <p className="text-2xl font-semibold">Made with <span className="text-blue-400">💙</span> by Vishal Agrawal</p>
+                        <p className="text-lg sm:text-xl md:text-2xl font-semibold">Made with <span className="text-blue-400">💙</span> by Vishal Agrawal</p>
 
                         <div className="flex gap-4 mt-6">
                             <a href="#" aria-label="instagram" className="p-2 bg-white/8 rounded-md hover:bg-white/10">
@@ -27,9 +27,9 @@ const Footer = () => {
                         </div>
                     </div>
 
-                    <div className='flex gap-20 md:gap-40 justify-center'>
+                    <div className='flex flex-col sm:flex-row gap-8 sm:gap-16 md:gap-20 lg:gap-40 justify-center'>
                         <div>
-                            <h4 className="text-2xl font-semibold mb-4">Sitemap</h4>
+                            <h4 className="text-lg sm:text-xl md:text-2xl font-semibold mb-4">Sitemap</h4>
                             <div className="space-y-3 list-none">
                                 <li><a href="#" className="text-gray-300!">Home</a></li>
                                 <li><a href="#" className="text-gray-300!">Add Listing</a></li>
@@ -39,7 +39,7 @@ const Footer = () => {
                         </div>
 
                         <div>
-                            <h4 className="text-2xl font-semibold mb-4">Informative</h4>
+                            <h4 className="text-lg sm:text-xl md:text-2xl font-semibold mb-4">Informative</h4>
                             <div className="space-y-3 list-none">
                                 <li><a href="#" className="text-gray-300!">FAQ</a></li>
                                 <li><a href="#" className="text-gray-300!">Privacy Policy</a></li>

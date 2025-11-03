@@ -21,13 +21,18 @@ const Dashboard = () => {
             navigate("/login");
         }
     }, [firebase, navigate])
+
+        if (!books.length) return <h1 className='text-center mt-5 text-2xl'>Loading...</h1>;
+
     
     return (
-        <div className=''>
-            <div className='flex flex-wrap justify-between gap-6 m-5'>
-                {books.map((book) => (
-                    <BookCard link={`/book/view/${book.id}`} key={book.id} id={book.id} {...book.data()} value="buy" />
-                ))}
+        <div className='min-h-screen bg-gray-50'>
+            <div className='container mx-auto px-4 py-8'>
+                <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6'>
+                    {books.map((book) => (
+                        <BookCard link={`/book/view/${book.id}`} key={book.id} id={book.id} {...book.data()} buttonText="Shop" />
+                    ))}
+                </div>
             </div>
             <Footer/>
         </div>

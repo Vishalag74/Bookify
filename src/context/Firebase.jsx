@@ -1,7 +1,7 @@
 import { use, useContext, useState, useEffect } from "react";
 import { createContext } from "react";
 import { initializeApp } from "firebase/app";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from 'firebase/auth';
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut, updateProfile } from 'firebase/auth';
 import { getFirestore, collection, addDoc, getDoc, getDocs, doc, query, where } from "firebase/firestore";
 
 const FirebaseContext = createContext(null);
@@ -26,19 +26,27 @@ const googleProvider = new GoogleAuthProvider();
 export const FirebaseProvider = (props) => {
 
     const [user, setUser] = useState(null);
+    const [displayName, setDisplayName] = useState(null);
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(firebaseAuth, (user) => {
             if (user) {
                 setUser(user);
+                setDisplayName(user.displayName || user.email.split('@')[0]);
             } else {
                 setUser(null);
+                setDisplayName(null);
             }
         });
         return () => unsubscribe();
     }, []);
 
-    const signupUserWithEmailAndPassword = (email, password) => {
-        return createUserWithEmailAndPassword(firebaseAuth, email, password);
+    const signupUserWithEmailAndPassword = async (email, password, fullName) => {
+        const userCredential = await createUserWithEmailAndPassword(firebaseAuth, email, password);
+        await updateProfile(userCredential.user, {
+            displayName: fullName,
+        });
+        setDisplayName(fullName);
+        return userCredential;
     }
 
     const signinUserWithEmailAndPassword = (email, password) => {
@@ -76,7 +84,7 @@ export const FirebaseProvider = (props) => {
             imageURL: result.secure_url,
             userId: user.uid,
             userEmail: user.email,
-            displayName: user.displayName,
+            displayName: displayName,
             photoURL: user.photoURL,
         })
     }
@@ -107,9 +115,10 @@ export const FirebaseProvider = (props) => {
         const result = await addDoc(collectionRef, {
             userId: user.uid,
             userEmail: user.email,
-            displayName: user.displayName,
+            displayName: displayName,
             photoURL: user.photoURL,
             qty: Number(qty),
+            orderDate: new Date(),
         })
         return result;
     };
@@ -130,17 +139,16 @@ export const FirebaseProvider = (props) => {
     const getUserOrders = async (userId) => {
         const booksRef = collection(firestore, "books");
         const booksSnapshot = await getDocs(booksRef);
-        const userOrders = [];
-
-        for (const bookDoc of booksSnapshot.docs) {
+        const orderPromises = booksSnapshot.docs.map(bookDoc => {
             const ordersRef = collection(firestore, "books", bookDoc.id, "orders");
             const q = query(ordersRef, where("userId", "==", userId));
-            const ordersSnapshot = await getDocs(q);
-            ordersSnapshot.forEach(orderDoc => {
-                userOrders.push({ bookId: bookDoc.id, ...orderDoc.data() });
+            return getDocs(q).then(ordersSnapshot => {
+                return ordersSnapshot.docs.map(orderDoc => ({ bookId: bookDoc.id, ...orderDoc.data() }));
             });
-        }
+        });
 
+        const orderArrays = await Promise.all(orderPromises);
+        const userOrders = orderArrays.flat();
         return { docs: userOrders };
     }
 
@@ -162,6 +170,7 @@ export const FirebaseProvider = (props) => {
             getUserOrders,
             isLoggedIn,
             user,
+            displayName,
         }
         }>
             {props.children}
