@@ -39,6 +39,7 @@ const Register = () => {
                                 value={fullName}
                                 type="text"
                                 placeholder="Enter full name"
+                                required
                                 className='mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500'
                             />
                         </div>
@@ -50,6 +51,7 @@ const Register = () => {
                                 value={email}
                                 type="email"
                                 placeholder="Enter email"
+                                required
                                 className='mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500'
                             />
                             <p className="mt-1 text-sm text-gray-500">
@@ -65,6 +67,7 @@ const Register = () => {
                                     value={password}
                                     type={showPassword ? "text" : "password"}
                                     placeholder="Password"
+                                    required
                                     className='mt-1 block w-full px-3 py-2 pr-10 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500'
                                 />
                                 <button
@@ -76,6 +79,7 @@ const Register = () => {
                                 </button>
                             </div>
                         </div>
+
                         <button
                             type="submit"
                             className='w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer'

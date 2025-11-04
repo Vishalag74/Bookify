@@ -11,6 +11,7 @@ const LoginPage = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
+    const [error, setError] = useState('');
 
     useEffect(() => {
         if (firebase.isLoggedIn) {
@@ -20,9 +21,19 @@ const LoginPage = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setError('');
         console.log("loading")
-        const result = await firebase.signinUserWithEmailAndPassword(email, password)
-        console.log("user created", result)
+        try {
+            const result = await firebase.signinUserWithEmailAndPassword(email, password)
+            console.log("user logged in", result)
+        } catch (err) {
+            console.error("Login error:", err);
+            if (err.code === 'auth/user-not-found' || err.code === 'auth/invalid-credential') {
+                setError('User not found. Please create an account.');
+            } else {
+                setError('Login failed. Please check your credentials.');
+            }
+        }
     }
 
     return (
@@ -40,6 +51,7 @@ const LoginPage = () => {
                                 value={email}
                                 type="email"
                                 placeholder="Enter email"
+                                required
                                 className='mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500'
                             />
                         </div>
@@ -52,6 +64,7 @@ const LoginPage = () => {
                                     value={password}
                                     type={showPassword ? "text" : "password"}
                                     placeholder="Password"
+                                    required
                                     className='mt-1 block w-full px-3 py-2 pr-10 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500'
                                 />
                                 <button
@@ -66,6 +79,7 @@ const LoginPage = () => {
                         <p className="mt-1 text-sm text-blue-500">
                             Forget Password?
                         </p>
+                        {error && <p className="mt-1 text-sm text-red-500">{error}</p>}
                         <button
                             type="submit"
                             className='w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 cursor-pointer'

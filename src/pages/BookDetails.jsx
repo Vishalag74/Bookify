@@ -82,6 +82,7 @@ const BookDetailPage = () => {
                                     onChange={(e) => setQty(e.target.value)}
                                     value={qty}
                                     type="number"
+                                    required
                                     className="border border-gray-600 rounded px-3 py-2 w-full bg-gray-100"
                                 />
                             </div>

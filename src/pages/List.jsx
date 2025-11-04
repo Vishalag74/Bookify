@@ -52,6 +52,7 @@ const List = () => {
                                 value={name}
                                 type="text"
                                 placeholder="Enter Book Name"
+                                required
                                 className='mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-sm md:text-base'
                             />
                         </div>
@@ -63,6 +64,7 @@ const List = () => {
                                 value={isbnNumber}
                                 type="text"
                                 placeholder="Enter ISBN Number"
+                                required
                                 className='mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-sm md:text-base'
                             />
                         </div>
@@ -74,6 +76,7 @@ const List = () => {
                                 value={price}
                                 type="text"
                                 placeholder="Enter Price"
+                                required
                                 className='mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-sm md:text-base'
                             />
                         </div>
@@ -84,6 +87,7 @@ const List = () => {
                                 ref={fileInputRef}
                                 onChange={(e) => setCoverPic(e.target.files[0])}
                                 type="file"
+                                required
                                 className='mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-sm md:text-base'
                             />
                         </div>
