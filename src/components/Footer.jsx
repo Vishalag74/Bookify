@@ -33,8 +33,8 @@ const Footer = () => {
                             <div className="space-y-3 list-none">
                                 <li><a href="#" className="text-gray-300!">Home</a></li>
                                 <li><a href="#" className="text-gray-300!">Add Listing</a></li>
-                                <li><a href="#" className="text-gray-300!">View Orders</a></li>
-                                <li><a href="#" className="text-gray-300!">Log out</a></li>
+                                <li><a href="#" className="text-gray-300!">My Listing</a></li>
+                                <li><a href="#" className="text-gray-300!">Orders</a></li>
                             </div>
                         </div>
 
