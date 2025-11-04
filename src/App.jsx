@@ -30,7 +30,7 @@ const App = () => {
     const isAllowed =
       allowedExact.includes(path) ||
       path.startsWith('/book/view/') ||   // matches /book/view/:bookId
-      path.startsWith('/books/orders/'); // matches /books/orders/:bookId
+      path.startsWith('/book/orders/'); // matches /book/orders/:bookId
 
     if (!isAllowed) {
       window.location.replace('/');
