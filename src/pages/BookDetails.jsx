@@ -23,6 +23,11 @@ const BookDetailPage = () => {
     }, [data]);
 
     const handlePayment = async () => {
+        if (!import.meta.env.VITE_RAZORPAY_KEY_ID) {
+            alert("Payment gateway not configured. Please contact support.");
+            return;
+        }
+
         const options = {
             key: import.meta.env.VITE_RAZORPAY_KEY_ID,
             amount: data.price * qty * 100, // Amount in paisa (multiply by 100)
