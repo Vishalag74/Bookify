@@ -63,6 +63,18 @@ export const FirebaseProvider = (props) => {
     }
 
     const handleCreateNewListing = async (name, isbnNumber, price, coverPic) => {
+        // Validate inputs
+        if (!name || !isbnNumber || !price || !coverPic) {
+            throw new Error('All fields are required');
+        }
+        const numericPrice = Number(price);
+        if (isNaN(numericPrice) || numericPrice <= 0) {
+            throw new Error('Price must be a valid positive number');
+        }
+        if (!user || !user.uid || !user.email) {
+            throw new Error('User must be logged in');
+        }
+
         const uploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
         const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
 
@@ -76,16 +88,24 @@ export const FirebaseProvider = (props) => {
             body: formData
         });
 
+        if (!response.ok) {
+            throw new Error(`Image upload failed: ${response.status} ${response.statusText}`);
+        }
+
         const result = await response.json();
+        if (!result.secure_url) {
+            throw new Error('Image upload failed: No secure URL returned');
+        }
+
         return await addDoc(collection(firestore, 'books'), {
-            name,
-            isbnNumber,
-            price,
+            name: name.trim(),
+            isbnNumber: isbnNumber.trim(),
+            price: numericPrice,
             imageURL: result.secure_url,
             userId: user.uid,
             userEmail: user.email,
-            displayName: displayName,
-            photoURL: user.photoURL,
+            displayName: displayName || user.email.split('@')[0],
+            photoURL: user.photoURL || null,
         })
     }
 

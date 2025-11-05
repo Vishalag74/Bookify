@@ -22,19 +22,21 @@ const Dashboard = () => {
         }
     }, [firebase, navigate])
 
-        if (!books.length) return <h1 className='text-center mt-5 text-2xl'>Loading...</h1>;
+    if (!books.length) return <h1 className='text-center mt-5 text-2xl'>Loading...</h1>;
 
-    
+
     return (
-        <div className='min-h-screen bg-gray-50'>
-            <div className='container mx-auto px-4 py-8'>
-                <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6'>
-                    {books.map((book) => (
-                        <BookCard link={`/book/view/${book.id}`} key={book.id} id={book.id} {...book.data()} buttonText="Shop" />
-                    ))}
+        <div className='min-h-screen flex flex-col'>
+            <main className='grow'>
+                <div className='container mx-auto px-4 py-8'>
+                    <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6'>
+                        {books.map((book) => (
+                            <BookCard link={`/book/view/${book.id}`} key={book.id} id={book.id} {...book.data()} buttonText="Shop" />
+                        ))}
+                    </div>
                 </div>
-            </div>
-            <Footer/>
+            </main>
+            <Footer />
         </div>
     )
 }

@@ -1,0 +1,27 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Books collection
+    match /books/{bookId} {
+      // Allow authenticated users to read books
+      allow read: if request.auth != null;
+      // Allow authenticated users to create books, but only the owner can update/delete
+      allow create: if request.auth != null;
+      allow update, delete: if request.auth != null && request.auth.uid == resource.data.userId;
+
+      // Orders subcollection
+      match /orders/{orderId} {
+        // Allow authenticated users to create orders (place orders)
+        allow create: if request.auth != null;
+        // Allow read if the user is the book owner or the order placer
+        allow read: if request.auth != null && 
+          (request.auth.uid == get(/databases/$(database)/documents/books/$(bookId)).data.userId || 
+           request.auth.uid == resource.data.userId);
+        // Allow update/delete only for the order placer or book owner
+        allow update, delete: if request.auth != null && 
+          (request.auth.uid == get(/databases/$(database)/documents/books/$(bookId)).data.userId || 
+           request.auth.uid == resource.data.userId);
+      }
+    }
+  }
+}

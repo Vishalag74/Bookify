@@ -16,7 +16,7 @@ const BookCard = (props) => {
         <div className="w-full bg-white shadow-lg rounded-lg overflow-hidden">
             <div className='p-4'>
                 <img
-                    className="w-full h-32 md:h-48 object-contain"
+                    className="w-full h-32 md:h-48 object-cover rounded-t-lg"
                     src={url || undefined}
                     alt={props.name}
                 />
